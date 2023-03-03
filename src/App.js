@@ -3,6 +3,7 @@ import './App.css';
 //msal and graph
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from './graph/config';
+import { getToken } from './graph/services';
 
 
 function App() {
@@ -11,12 +12,12 @@ function App() {
   const isAuthenticated = useIsAuthenticated();
 
   useEffect(async () => {
-    let accessToken = token;
 
-    if (!token) {
-      !isAuthenticated && await instance.loginPopup(loginRequest);
-      setToken(accessToken);
-    }
+      // !isAuthenticated && await instance.loginPopup();
+      await instance.loginPopup()
+      const token = await getToken();
+      console.log("This is res: ", token);
+    
   }, [])
 
   return (
